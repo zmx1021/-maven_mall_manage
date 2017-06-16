@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu1228.mapper.FlushRedisMapper">
+	<resultMap type="com.atguigu1228.bean.OBJECT_T_MALL_SKU" id="query_sku_page_by_class_2_id_map"
+		autoMapping="true">
+		<result column="sku_id" property="id" />
+		<association property="spu"
+			javaType="com.atguigu1228.bean.T_MALL_PRODUCT" autoMapping="true">
+			<result column="spu_id" property="id" />
+		</association>
+		<association property="tm"
+			javaType="com.atguigu1228.bean.T_MALL_TRADE_MARK" autoMapping="true">
+			<result column="tm_id" property="id" />
+		</association>
+	</resultMap>
+
+	<select id="query_sku_page_by_class_2_id" parameterType="int"
+		resultMap="query_sku_page_by_class_2_id_map">
+		select sku.*,spu.*,tm.*,sku.id as sku_id,spu.id as
+		spu_id,tm.id as
+		tm_id from
+		t_mall_sku sku,
+		t_mall_product spu,
+		t_mall_trade_mark tm,
+		t_mall_tm_class tm_class,
+		t_mall_class_1 class1
+		where sku.shp_id =
+		spu.Id
+		and spu.flbh1 = class1.Id
+		and class1.Id =
+		tm_class.flbh1
+		and tm.id
+		= tm_class.pp_id
+		and spu.pp_id = tm.Id
+		and
+		spu.flbh2 =#{class_2_id}
+		<if test="pp_id!=0">
+			and spu.pp_id = #{pp_id}
+		</if>
+	</select>
+	<resultMap type="com.atguigu1228.bean.OBJECT_T_MALL_SKU" id="query_sku_page_by_class_2_id_attr_value_map"
+		autoMapping="true">
+		<result column="sku_id" property="id" />
+		<association property="spu"
+			javaType="com.atguigu1228.bean.T_MALL_PRODUCT" autoMapping="true">
+			<result column="spu_id" property="id" />
+		</association>
+		<association property="tm"
+			javaType="com.atguigu1228.bean.T_MALL_TRADE_MARK" autoMapping="true">
+			<result column="tm_id" property="id" />
+		</association>
+	</resultMap>
+	<select id="query_sku_page_by_class_2_id_attr_value" resultMap="query_sku_page_by_class_2_id_attr_value_map"
+		parameterType="Map">
+		select sku.*,spu.*,tm.*,sku.id as sku_id,spu.id as
+		spu_id,tm.id as
+		tm_id from
+		t_mall_sku sku,
+		t_mall_product spu,
+		t_mall_trade_mark tm,
+		t_mall_tm_class tm_class,
+		t_mall_class_1 class1
+		where sku.shp_id =
+		spu.Id
+		and spu.flbh1 = class1.Id
+		and class1.Id =
+		tm_class.flbh1
+		and tm.id
+		= tm_class.pp_id
+		and spu.pp_id = tm.Id
+		and
+		spu.flbh2 =#{class_2_id}
+		<if test="pp_id!=0">
+			and spu.pp_id = #{pp_id}
+		</if>
+		${sql}
+	</select>
+
+	<select id="select_value_by_attr_id" resultType="com.atguigu1228.bean.T_MALL_VALUE"
+		parameterType="int">
+
+		select * from t_mall_value where shxm_id = #{attr_id}
+
+	</select>
+</mapper>
